@@ -10,7 +10,6 @@ import android.view.View
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.RelativeLayout
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication.R
 import com.example.myapplication.logic.GameManager
@@ -216,10 +215,7 @@ class MainActivity : AppCompatActivity() {
 
     // ===== Crash Handler =====
     private fun onCrash() {
-        // Display Toast message
-        Toast.makeText(this, "Crash!", Toast.LENGTH_SHORT).show()
-
-        // Trigger vibration
+        // Trigger vibration only (Toast message is shown in GameManager)
         val vibrator = getSystemService(VIBRATOR_SERVICE) as Vibrator
         vibrator.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE))
     }

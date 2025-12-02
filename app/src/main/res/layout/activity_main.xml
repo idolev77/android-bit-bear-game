@@ -46,7 +46,7 @@
         android:id="@+id/obstacle_left"
         android:layout_width="@dimen/obstacle_size"
         android:layout_height="@dimen/obstacle_size"
-        android:src="@drawable/block"
+        android:src="@drawable/bear"
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="@dimen/screen_margin"
         android:layout_marginTop="-100dp"/>
@@ -56,7 +56,7 @@
         android:id="@+id/obstacle_center"
         android:layout_width="@dimen/obstacle_size"
         android:layout_height="@dimen/obstacle_size"
-        android:src="@drawable/block"
+        android:src="@drawable/bear"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="-100dp"/>
 
@@ -65,7 +65,7 @@
         android:id="@+id/obstacle_right"
         android:layout_width="@dimen/obstacle_size"
         android:layout_height="@dimen/obstacle_size"
-        android:src="@drawable/block"
+        android:src="@drawable/bear"
         android:layout_alignParentRight="true"
         android:layout_marginRight="@dimen/screen_margin"
         android:layout_marginTop="-100dp"/>
@@ -78,7 +78,7 @@
         android:id="@+id/car_left"
         android:layout_width="@dimen/car_size"
         android:layout_height="@dimen/car_size"
-        android:src="@drawable/car"
+        android:src="@drawable/bitcoin"
         android:layout_alignParentLeft="true"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="@dimen/car_bottom_margin"
@@ -90,7 +90,7 @@
         android:id="@+id/car_center"
         android:layout_width="@dimen/car_size"
         android:layout_height="@dimen/car_size"
-        android:src="@drawable/car"
+        android:src="@drawable/bitcoin"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="@dimen/car_bottom_margin"
@@ -101,7 +101,7 @@
         android:id="@+id/car_right"
         android:layout_width="@dimen/car_size"
         android:layout_height="@dimen/car_size"
-        android:src="@drawable/car"
+        android:src="@drawable/bitcoin"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="@dimen/car_bottom_margin"

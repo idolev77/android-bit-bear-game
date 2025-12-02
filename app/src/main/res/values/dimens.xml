@@ -2,7 +2,7 @@
 <resources>
     <!-- Objects Sizes -->
     <dimen name="car_size">60dp</dimen>
-    <dimen name="obstacle_size">50dp</dimen>
+    <dimen name="obstacle_size">70dp</dimen>
     <dimen name="heart_size">30dp</dimen>
     <dimen name="button_size">70dp</dimen>
 
