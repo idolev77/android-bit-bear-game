@@ -4,8 +4,15 @@
     android:id="@+id/main_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/road_background"
     tools:context=".ui.MainActivity">
+
+    <!-- ===== ANIMATED GIF BACKGROUND ===== -->
+    <ImageView
+        android:id="@+id/background_gif"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:contentDescription="@string/background_description"/>
 
     <!-- ===== LIVES (TOP RIGHT) ===== -->
     <RelativeLayout
@@ -13,7 +20,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_margin="@dimen/screen_margin">
 
         <ImageView
@@ -21,21 +28,24 @@
             android:layout_width="@dimen/heart_size"
             android:layout_height="@dimen/heart_size"
             android:src="@drawable/heart"
-            android:layout_toRightOf="@id/heart2"/>
+            android:layout_toEndOf="@id/heart2"
+            android:contentDescription="@string/heart_description"/>
 
         <ImageView
             android:id="@+id/heart2"
             android:layout_width="@dimen/heart_size"
             android:layout_height="@dimen/heart_size"
             android:src="@drawable/heart"
-            android:layout_toRightOf="@id/heart1"
-            android:layout_marginLeft="@dimen/lane_margin"/>
+            android:layout_toEndOf="@id/heart1"
+            android:layout_marginStart="@dimen/lane_margin"
+            android:contentDescription="@string/heart_description"/>
 
         <ImageView
             android:id="@+id/heart1"
             android:layout_width="@dimen/heart_size"
             android:layout_height="@dimen/heart_size"
-            android:src="@drawable/heart"/>
+            android:src="@drawable/heart"
+            android:contentDescription="@string/heart_description"/>
     </RelativeLayout>
 
     <!-- ===== OBSTACLES (Dynamic movement via TopMargin) ===== -->
@@ -47,9 +57,10 @@
         android:layout_width="@dimen/obstacle_size"
         android:layout_height="@dimen/obstacle_size"
         android:src="@drawable/bear"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="@dimen/screen_margin"
-        android:layout_marginTop="-100dp"/>
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="@dimen/screen_margin"
+        android:layout_marginTop="-100dp"
+        android:contentDescription="@string/obstacle_description"/>
 
     <!-- Obstacle Lane Center -->
     <ImageView
@@ -58,7 +69,8 @@
         android:layout_height="@dimen/obstacle_size"
         android:src="@drawable/bear"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="-100dp"/>
+        android:layout_marginTop="-100dp"
+        android:contentDescription="@string/obstacle_description"/>
 
     <!-- Obstacle Lane Right -->
     <ImageView
@@ -66,9 +78,10 @@
         android:layout_width="@dimen/obstacle_size"
         android:layout_height="@dimen/obstacle_size"
         android:src="@drawable/bear"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="@dimen/screen_margin"
-        android:layout_marginTop="-100dp"/>
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="@dimen/screen_margin"
+        android:layout_marginTop="-100dp"
+        android:contentDescription="@string/obstacle_description"/>
 
 
     <!-- ===== CAR POSITIONS (Only one visible at a time) ===== -->
@@ -79,11 +92,12 @@
         android:layout_width="@dimen/car_size"
         android:layout_height="@dimen/car_size"
         android:src="@drawable/bitcoin"
-        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="@dimen/car_bottom_margin"
-        android:layout_marginLeft="@dimen/screen_margin"
-        android:visibility="invisible"/>
+        android:layout_marginStart="@dimen/screen_margin"
+        android:visibility="invisible"
+        android:contentDescription="@string/car_description"/>
 
     <!-- Lane 1: Center -->
     <ImageView
@@ -94,7 +108,8 @@
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="@dimen/car_bottom_margin"
-        android:visibility="visible"/>
+        android:visibility="visible"
+        android:contentDescription="@string/car_description"/>
 
     <!-- Lane 2: Right -->
     <ImageView
@@ -102,11 +117,12 @@
         android:layout_width="@dimen/car_size"
         android:layout_height="@dimen/car_size"
         android:src="@drawable/bitcoin"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="@dimen/car_bottom_margin"
-        android:layout_marginRight="@dimen/screen_margin"
-        android:visibility="invisible"/>
+        android:layout_marginEnd="@dimen/screen_margin"
+        android:visibility="invisible"
+        android:contentDescription="@string/car_description"/>
 
     <!-- ===== CONTROLS (FLOATING OVERLAY) ===== -->
 
@@ -115,23 +131,25 @@
         android:layout_width="@dimen/button_size"
         android:layout_height="@dimen/button_size"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:layout_margin="@dimen/button_bottom_margin"
-        android:layout_marginLeft="@dimen/screen_margin"
+        android:layout_marginStart="@dimen/screen_margin"
         android:background="@drawable/button_background"
         android:src="@android:drawable/ic_media_previous"
-        android:elevation="10dp"/>
+        android:elevation="10dp"
+        android:contentDescription="@string/button_left_description"/>
 
     <ImageButton
         android:id="@+id/btn_right"
         android:layout_width="@dimen/button_size"
         android:layout_height="@dimen/button_size"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_margin="@dimen/button_bottom_margin"
-        android:layout_marginRight="@dimen/screen_margin"
+        android:layout_marginEnd="@dimen/screen_margin"
         android:background="@drawable/button_background"
         android:src="@android:drawable/ic_media_next"
-        android:elevation="10dp"/>
+        android:elevation="10dp"
+        android:contentDescription="@string/button_right_description"/>
 
 </RelativeLayout>

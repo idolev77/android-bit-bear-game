@@ -1,16 +1,21 @@
 package com.example.myapplication.ui
 
+import android.content.Context
 import android.graphics.Rect
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
+import android.os.VibratorManager
 import android.view.View
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.RelativeLayout
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.bumptech.glide.Glide
 import com.example.myapplication.R
 import com.example.myapplication.logic.GameManager
 
@@ -50,7 +55,13 @@ class MainActivity : AppCompatActivity() {
         btnLeft = findViewById(R.id.btn_left)
         btnRight = findViewById(R.id.btn_right)
 
-        // Connecting XML to arrays in Code
+        // Load animated GIF background with Glide
+        val backgroundGif = findViewById<ImageView>(R.id.background_gif)
+        Glide.with(this)
+            .asGif()
+            .load(R.drawable.tenor)
+            .into(backgroundGif)
+
         carViews = arrayOf(
             findViewById(R.id.car_left),
             findViewById(R.id.car_center),
@@ -215,8 +226,17 @@ class MainActivity : AppCompatActivity() {
 
     // ===== Crash Handler =====
     private fun onCrash() {
-        // Trigger vibration only (Toast message is shown in GameManager)
-        val vibrator = getSystemService(VIBRATOR_SERVICE) as Vibrator
+        // Display Toast message
+        Toast.makeText(this, "Crash!", Toast.LENGTH_SHORT).show()
+
+        // Trigger vibration
+        val vibrator = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            val vibratorManager = getSystemService(VIBRATOR_MANAGER_SERVICE) as VibratorManager
+            vibratorManager.defaultVibrator
+        } else {
+            @Suppress("DEPRECATION")
+            getSystemService(VIBRATOR_SERVICE) as Vibrator
+        }
         vibrator.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE))
     }
 

@@ -4,4 +4,12 @@
     <string name="btn_right"><![CDATA[>]]></string>
     <string name="crash_toast">BOOM! Obstacle Hit!</string>
     <string name="game_over">Game Over!</string>
+
+    <!-- Content Descriptions for Accessibility -->
+    <string name="background_description">Animated road background</string>
+    <string name="heart_description">Life heart</string>
+    <string name="obstacle_description">Obstacle on road</string>
+    <string name="car_description">Player car</string>
+    <string name="button_left_description">Move car left</string>
+    <string name="button_right_description">Move car right</string>
 </resources>
