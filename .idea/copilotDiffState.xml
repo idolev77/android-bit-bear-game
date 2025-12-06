@@ -52,42 +52,6 @@
             </PendingDiffInfo>
           </value>
         </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/res/mipmap-anydpi/ic_launcher.xml">
-          <value>
-            <PendingDiffInfo>
-              <option name="filePath" value="$PROJECT_DIR$/app/src/main/res/mipmap-anydpi/ic_launcher.xml" />
-              <option name="originalContent" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;&#10;&lt;adaptive-icon xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&gt;&#10;    &lt;background android:drawable=&quot;@drawable/ic_launcher_background&quot; /&gt;&#10;    &lt;foreground android:drawable=&quot;@drawable/ic_launcher_foreground&quot; /&gt;&#10;    &lt;monochrome android:drawable=&quot;@drawable/ic_launcher_foreground&quot; /&gt;&#10;&lt;/adaptive-icon&gt;" />
-              <option name="updatedContent" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;&#10;&lt;adaptive-icon xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&gt;&#10;    &lt;background android:drawable=&quot;@drawable/app_background&quot; /&gt;&#10;    &lt;foreground android:drawable=&quot;@drawable/app_background&quot; /&gt;&#10;    &lt;monochrome android:drawable=&quot;@drawable/ic_launcher_foreground&quot; /&gt;&#10;&lt;/adaptive-icon&gt;" />
-            </PendingDiffInfo>
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/res/mipmap-anydpi/ic_launcher_round.xml">
-          <value>
-            <PendingDiffInfo>
-              <option name="filePath" value="$PROJECT_DIR$/app/src/main/res/mipmap-anydpi/ic_launcher_round.xml" />
-              <option name="originalContent" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;&#10;&lt;adaptive-icon xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&gt;&#10;    &lt;background android:drawable=&quot;@drawable/ic_launcher_background&quot; /&gt;&#10;    &lt;foreground android:drawable=&quot;@drawable/ic_launcher_foreground&quot; /&gt;&#10;    &lt;monochrome android:drawable=&quot;@drawable/ic_launcher_foreground&quot; /&gt;&#10;&lt;/adaptive-icon&gt;" />
-              <option name="updatedContent" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;&#10;&lt;adaptive-icon xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&gt;&#10;    &lt;background android:drawable=&quot;@drawable/app_background&quot; /&gt;&#10;    &lt;foreground android:drawable=&quot;@drawable/app_background&quot; /&gt;&#10;    &lt;monochrome android:drawable=&quot;@drawable/ic_launcher_foreground&quot; /&gt;&#10;&lt;/adaptive-icon&gt;" />
-            </PendingDiffInfo>
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/res/values/strings.xml">
-          <value>
-            <PendingDiffInfo>
-              <option name="filePath" value="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
-              <option name="originalContent" value="&lt;resources&gt;&#10;    &lt;string name=&quot;app_name&quot;&gt;Car Lane Racer&lt;/string&gt;&#10;    &lt;string name=&quot;btn_left&quot;&gt;&lt;![CDATA[&lt;]]&gt;&lt;/string&gt;&#10;    &lt;string name=&quot;btn_right&quot;&gt;&lt;![CDATA[&gt;]]&gt;&lt;/string&gt;&#10;    &lt;string name=&quot;crash_toast&quot;&gt;BOOM! Obstacle Hit!&lt;/string&gt;&#10;    &lt;string name=&quot;game_over&quot;&gt;Game Over!&lt;/string&gt;&#10;&#10;    &lt;!-- Content Descriptions for Accessibility --&gt;&#10;    &lt;string name=&quot;background_description&quot;&gt;Animated road background&lt;/string&gt;&#10;    &lt;string name=&quot;heart_description&quot;&gt;Life heart&lt;/string&gt;&#10;    &lt;string name=&quot;obstacle_description&quot;&gt;Obstacle on road&lt;/string&gt;&#10;    &lt;string name=&quot;car_description&quot;&gt;Player car&lt;/string&gt;&#10;    &lt;string name=&quot;button_left_description&quot;&gt;Move car left&lt;/string&gt;&#10;    &lt;string name=&quot;button_right_description&quot;&gt;Move car right&lt;/string&gt;&#10;&lt;/resources&gt;" />
-              <option name="updatedContent" value="&lt;resources&gt;&#10;    &lt;string name=&quot;app_name&quot;&gt;Car Lane Racer&lt;/string&gt;&#10;    &lt;string name=&quot;btn_left&quot;&gt;&lt;![CDATA[&lt;]]&gt;&lt;/string&gt;&#10;    &lt;string name=&quot;btn_right&quot;&gt;&lt;![CDATA[&gt;]]&gt;&lt;/string&gt;&#10;    &lt;string name=&quot;crash_toast&quot;&gt;BOOM! Obstacle Hit!&lt;/string&gt;&#10;    &lt;string name=&quot;game_over&quot;&gt;Game Over!&lt;/string&gt;&#10;    &lt;string name=&quot;game_over_title&quot;&gt;GAME OVER&lt;/string&gt;&#10;    &lt;string name=&quot;final_score_label&quot;&gt;Your Score: %d&lt;/string&gt;&#10;    &lt;string name=&quot;play_again_button&quot;&gt;PLAY AGAIN&lt;/string&gt;&#10;    &lt;string name=&quot;score_label&quot;&gt;Score: %d&lt;/string&gt;&#10;    &lt;string name=&quot;game_over_title_description&quot;&gt;Game Over Title&lt;/string&gt;&#10;    &lt;string name=&quot;final_score_description&quot;&gt;Final Score&lt;/string&gt;&#10;    &lt;string name=&quot;play_again_description&quot;&gt;Play Again Button&lt;/string&gt;&#10;&#10;    &lt;!-- Content Descriptions for Accessibility --&gt;&#10;    &lt;string name=&quot;background_description&quot;&gt;Animated road background&lt;/string&gt;&#10;    &lt;string name=&quot;heart_description&quot;&gt;Life heart&lt;/string&gt;&#10;    &lt;string name=&quot;obstacle_description&quot;&gt;Obstacle on road&lt;/string&gt;&#10;    &lt;string name=&quot;car_description&quot;&gt;Player car&lt;/string&gt;&#10;    &lt;string name=&quot;button_left_description&quot;&gt;Move car left&lt;/string&gt;&#10;    &lt;string name=&quot;button_right_description&quot;&gt;Move car right&lt;/string&gt;&#10;    &lt;string name=&quot;score_description&quot;&gt;Current game score&lt;/string&gt;&#10;&lt;/resources&gt;" />
-            </PendingDiffInfo>
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/res/values/themes.xml">
-          <value>
-            <PendingDiffInfo>
-              <option name="filePath" value="$PROJECT_DIR$/app/src/main/res/values/themes.xml" />
-              <option name="originalContent" value="&lt;resources xmlns:tools=&quot;http://schemas.android.com/tools&quot;&gt;&#10;    &lt;style name=&quot;Theme.CarLaneRacer&quot; parent=&quot;Theme.MaterialComponents.DayNight.NoActionBar&quot;&gt;&#10;        &lt;item name=&quot;colorPrimary&quot;&gt;@color/purple_500&lt;/item&gt;&#10;        &lt;item name=&quot;colorPrimaryVariant&quot;&gt;@color/purple_700&lt;/item&gt;&#10;        &lt;item name=&quot;colorOnPrimary&quot;&gt;@color/white&lt;/item&gt;&#10;        &lt;item name=&quot;colorSecondary&quot;&gt;@color/teal_200&lt;/item&gt;&#10;        &lt;item name=&quot;colorOnSecondary&quot;&gt;@color/black&lt;/item&gt;&#10;        &lt;item name=&quot;android:statusBarColor&quot; tools:targetApi=&quot;l&quot;&gt;?attr/colorPrimaryVariant&lt;/item&gt;&#10;    &lt;/style&gt;&#10;&lt;/resources&gt;" />
-              <option name="updatedContent" value="&lt;resources xmlns:tools=&quot;http://schemas.android.com/tools&quot;&gt;&#10;    &lt;style name=&quot;Theme.CarLaneRacer&quot; parent=&quot;Theme.MaterialComponents.DayNight.NoActionBar&quot;&gt;&#10;        &lt;item name=&quot;colorPrimary&quot;&gt;@color/purple_500&lt;/item&gt;&#10;        &lt;item name=&quot;colorPrimaryVariant&quot;&gt;@color/purple_700&lt;/item&gt;&#10;        &lt;item name=&quot;colorOnPrimary&quot;&gt;@color/white&lt;/item&gt;&#10;        &lt;item name=&quot;colorSecondary&quot;&gt;@color/teal_200&lt;/item&gt;&#10;        &lt;item name=&quot;colorOnSecondary&quot;&gt;@color/black&lt;/item&gt;&#10;        &lt;item name=&quot;android:statusBarColor&quot; tools:targetApi=&quot;l&quot;&gt;?attr/colorPrimaryVariant&lt;/item&gt;&#10;        &lt;item name=&quot;android:windowBackground&quot;&gt;@drawable/tenor&lt;/item&gt;&#10;        &lt;item name=&quot;android:windowNoTitle&quot;&gt;true&lt;/item&gt;&#10;        &lt;item name=&quot;android:windowFullscreen&quot;&gt;true&lt;/item&gt;&#10;    &lt;/style&gt;&#10;&lt;/resources&gt;" />
-            </PendingDiffInfo>
-          </value>
-        </entry>
       </map>
     </option>
   </component>

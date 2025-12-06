@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Car Lane Racer</string>
+    <string name="app_name">Bit-Bear</string>
     <string name="btn_left"><![CDATA[<]]></string>
     <string name="btn_right"><![CDATA[>]]></string>
     <string name="crash_toast">BOOM! Obstacle Hit!</string>

@@ -1,6 +1,5 @@
 package com.example.myapplication.ui
 
-import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -24,57 +23,60 @@ import com.example.myapplication.logic.GameManager
 class MainActivity : AppCompatActivity() {
 
     // ===== Grid Configuration =====
-    private val GRID_ROWS = 14  // 14 rows - bear takes MUCH longer to reach bottom
-    private val GRID_COLS = 3
-    private val PLAYER_ROW = GRID_ROWS - 2
+    private val GRID_ROWS = 14  // 14 rows - obstacles fall slower
+    private val GRID_COLS = 3   // 3 columns - 3 lanes
+    private val PLAYER_ROW = GRID_ROWS - 1  // Player is in second-to-last row
 
     // ===== UI Variables =====
-    private lateinit var gameGrid: TableLayout
-    private lateinit var btnLeft: ImageButton
-    private lateinit var btnRight: ImageButton
-    private lateinit var textScore: TextView
-    private lateinit var heartViews: Array<ImageView>
+    private lateinit var gameGrid: TableLayout  // Game grid
+    private lateinit var btnLeft: ImageButton    // Left movement button
+    private lateinit var btnRight: ImageButton   // Right movement button
+    private lateinit var textScore: TextView     // Score display
+    private lateinit var heartViews: Array<ImageView>  // Hearts display (lives)
 
     // ===== Grid Cells =====
-    private val gridCells = Array(GRID_ROWS) { row ->
+    // 2D matrix containing all grid cells (ImageView)
+    private val gridCells = Array(GRID_ROWS) {
         Array<ImageView?>(GRID_COLS) { null }
     }
 
-    // ===== Logic =====
-    private lateinit var gameManager: GameManager
-    private val handler = Handler(Looper.getMainLooper())
-    private val frameRate: Long = 600 // Move every 0.6 seconds - faster gameplay
+    // ===== Game Logic =====
+    private lateinit var gameManager: GameManager  // Game logic manager
+    private val handler = Handler(Looper.getMainLooper())  // Game timer
+    private val frameRate: Long = 600 // Time between moves (600ms = 0.6 seconds)
 
     // Obstacle tracking
-    private var obstacleRow = -1
-    private var obstacleCol = 1
-    private var collisionDetected = false
+    private var obstacleRow = -1        // Current obstacle row
+    private var obstacleCol = 1         // Current obstacle column
+    private var collisionDetected = false  // Whether collision was detected
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Force LTR
+        // Force LTR (Left-to-Right) layout direction
         window.decorView.layoutDirection = View.LAYOUT_DIRECTION_LTR
 
-        initViews()
-        buildGrid()
-        initGame()
+        initViews()   // Initialize UI components
+        buildGrid()   // Build game grid
+        initGame()    // Start game
     }
 
+    // Initialize UI components
     private fun initViews() {
         gameGrid = findViewById(R.id.game_grid)
         btnLeft = findViewById(R.id.btn_left)
         btnRight = findViewById(R.id.btn_right)
         textScore = findViewById(R.id.text_score)
 
-        // Load GIF background
+        // Load animated GIF background
         val backgroundGif = findViewById<ImageView>(R.id.background_gif)
         Glide.with(this)
             .asGif()
             .load(R.drawable.tenor)
             .into(backgroundGif)
 
+        // Array of 3 hearts (lives)
         heartViews = arrayOf(
             findViewById(R.id.heart1),
             findViewById(R.id.heart2),
@@ -82,11 +84,12 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
+    // Build game grid - matrix of GRID_ROWS x GRID_COLS cells
     private fun buildGrid() {
         gameGrid.removeAllViews()
 
-        // Use TableLayout's built-in equal distribution
-        // No need to calculate cell height - let TableLayout handle it!
+        // TableLayout distributes rows equally automatically
+        // No need to manually calculate cell height
 
         for (row in 0 until GRID_ROWS) {
             val tableRow = TableRow(this).apply {
@@ -118,109 +121,123 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    // Initialize game - create GameManager and setup buttons
     private fun initGame() {
         gameManager = GameManager()
 
+        // Left button - moves player left
         btnLeft.setOnClickListener {
             gameManager.moveCarLeft()
             updatePlayerPosition()
+            checkSideCollision() // Check if player moved into obstacle from side
         }
 
+        // Right button - moves player right
         btnRight.setOnClickListener {
             gameManager.moveCarRight()
             updatePlayerPosition()
+            checkSideCollision() // Check if player moved into obstacle from side
         }
 
-        updatePlayerPosition()
-        updateLivesUI()
-        updateScoreUI()
-        spawnNewObstacle()
-        startTimer()
+        updatePlayerPosition()  // Place player in starting position
+        updateLivesUI()         // Update hearts display
+        updateScoreUI()         // Update score display
+        spawnNewObstacle()      // Create first obstacle
+        startTimer()            // Start game loop
     }
 
     // ===== Game Loop =====
+    // Runnable executed every frameRate milliseconds
     private val runnable = object : Runnable {
         override fun run() {
             if (gameManager.isGameRunning) {
-                tick()  // Execute game logic FIRST
-                handler.postDelayed(this, frameRate)  // Then schedule next run
+                tick()  // Execute one game step
+                handler.postDelayed(this, frameRate)  // Schedule next run
             }
         }
     }
 
+    // Start game timer
     private fun startTimer() {
         handler.postDelayed(runnable, frameRate)
     }
 
+    // Stop game timer
     private fun stopTimer() {
         handler.removeCallbacks(runnable)
     }
 
+    // Game loop - executed every 600ms
     private fun tick() {
         android.util.Log.d("MainActivity", "tick() - isGameRunning=${gameManager.isGameRunning}, lives=${gameManager.lives}")
 
-        if (!gameManager.isGameRunning) {
-            android.util.Log.d("MainActivity", "Game Over! Opening GameOverActivity")
-            stopTimer()
-            openGameOverActivity()
-            return
-        }
-
+        // Endless game - no need to check isGameRunning, game always continues
         moveObstacle()
         updateScoreUI()
         updateLivesUI()
     }
 
+    // Create new obstacle - starts at top row in random column
     private fun spawnNewObstacle() {
-        obstacleRow = 0
-        obstacleCol = (0 until GRID_COLS).random()
-        collisionDetected = false
+        obstacleRow = 0  // Top row
+        obstacleCol = (0 until GRID_COLS).random()  // Random column (0-2)
+        collisionDetected = false  // Reset collision flag
 
-        // Place obstacle in grid
+        // Place obstacle (bear) in grid
         gridCells[obstacleRow][obstacleCol]?.setImageResource(R.drawable.bear)
     }
 
+    // Move obstacle one row down
     private fun moveObstacle() {
         if (obstacleRow < 0) return
 
-        // Clear current position
-        if (obstacleRow < GRID_ROWS) {
+        // Clear current position - but NEVER clear the player row
+        if (obstacleRow < GRID_ROWS && obstacleRow != PLAYER_ROW) {
             gridCells[obstacleRow][obstacleCol]?.setImageDrawable(null)
         }
 
         // Move down one row
         obstacleRow++
 
-        // Check if reached bottom
+        // Check if obstacle reached bottom (past the grid)
         if (obstacleRow >= GRID_ROWS) {
-            // Obstacle passed successfully
+            // Clear the last position before spawning new obstacle
+            // Check the actual last row where the bear was
+            val lastRow = GRID_ROWS - 1
+            if (lastRow != PLAYER_ROW) {
+                // Clear if it's not player row
+                gridCells[lastRow][obstacleCol]?.setImageDrawable(null)
+            } else {
+                // If last row IS player row, check if bear is in different column than player
+                if (obstacleCol != gameManager.currentCarIndex) {
+                    gridCells[lastRow][obstacleCol]?.setImageDrawable(null)
+                }
+            }
+
+            // Obstacle passed successfully - add score
             if (!collisionDetected) {
                 gameManager.incrementScore()
             }
-            spawnNewObstacle()
+            spawnNewObstacle()  // Create new obstacle
             return
         }
 
-        // Check collision BEFORE placing
+        // Check collision at new position
         if (obstacleRow == PLAYER_ROW && obstacleCol == gameManager.currentCarIndex) {
-            // Collision!
+            // Collision! Bear hit the bitcoin
             android.util.Log.d("MainActivity", "COLLISION DETECTED! Lives before: ${gameManager.lives}")
             collisionDetected = true
-            onCrash()
+            onCrash() // Show Toast and vibrate
 
-            // Reduce lives directly
+            // Reduce lives (if lives run out, GameManager will reset automatically)
             gameManager.handleCollision()
-            android.util.Log.d("MainActivity", "Lives after collision: ${gameManager.lives}, isGameRunning: ${gameManager.isGameRunning}")
+            android.util.Log.d("MainActivity", "Lives after collision: ${gameManager.lives}")
 
-            // Check for game over IMMEDIATELY after collision
-            if (!gameManager.isGameRunning) {
-                android.util.Log.d("MainActivity", "Game Over immediately after collision!")
-                stopTimer()
-                openGameOverActivity()
-                return
-            }
+            // Game continues - don't stop it (endless game)
+            updateScoreUI()
+            updateLivesUI()
 
-            // Skip placing obstacle (it crashed)
+            // Create new obstacle at top
             spawnNewObstacle()
             return
         }
@@ -229,27 +246,57 @@ class MainActivity : AppCompatActivity() {
         gridCells[obstacleRow][obstacleCol]?.setImageResource(R.drawable.bear)
     }
 
+    // Update player position in grid
     private fun updatePlayerPosition() {
-        // Clear all player positions
+        // Clear ONLY old bitcoin positions, don't clear bear if it's at player row
         for (col in 0 until GRID_COLS) {
-            gridCells[PLAYER_ROW][col]?.setImageDrawable(null)
+            // Only clear if this column doesn't have the bear at player row
+            if (obstacleRow != PLAYER_ROW || col != obstacleCol) {
+                gridCells[PLAYER_ROW][col]?.setImageDrawable(null)
+            }
         }
 
-        // Place player in current lane
+        // Place player (bitcoin) in current column - ALWAYS visible
         val playerCol = gameManager.currentCarIndex
         gridCells[PLAYER_ROW][playerCol]?.setImageResource(R.drawable.bitcoin)
     }
 
+    // Check collision when player moves sideways into obstacle
+    private fun checkSideCollision() {
+        // Check if player moved into same position as obstacle
+        if (obstacleRow == PLAYER_ROW && obstacleCol == gameManager.currentCarIndex && !collisionDetected) {
+            // Side collision! Player moved into the bear
+            android.util.Log.d("MainActivity", "SIDE COLLISION! Player moved into bear. Lives before: ${gameManager.lives}")
+            collisionDetected = true
+            onCrash() // Show Toast and vibrate
+
+            // Reduce lives (if lives run out, GameManager will reset automatically)
+            gameManager.handleCollision()
+            android.util.Log.d("MainActivity", "Lives after side collision: ${gameManager.lives}")
+
+            // Game continues - don't stop it (endless game)
+            updateScoreUI()
+            updateLivesUI()
+
+            // Create new obstacle at top
+            spawnNewObstacle()
+        }
+    }
+
+    // Update hearts display (lives)
     private fun updateLivesUI() {
         for (i in heartViews.indices) {
+            // Show heart if lives remain, hide otherwise
             heartViews[i].visibility = if (i < gameManager.lives) View.VISIBLE else View.INVISIBLE
         }
     }
 
+    // Update score display
     private fun updateScoreUI() {
         textScore.text = getString(R.string.score_label, gameManager.score)
     }
 
+    // Show crash notification - Toast and vibration
     private fun onCrash() {
         Toast.makeText(this, "Crash!", Toast.LENGTH_SHORT).show()
 
@@ -263,24 +310,18 @@ class MainActivity : AppCompatActivity() {
         vibrator.vibrate(VibrationEffect.createOneShot(300, VibrationEffect.DEFAULT_AMPLITUDE))
     }
 
-    private fun openGameOverActivity() {
-        val intent = Intent(this, GameOverActivity::class.java)
-        intent.putExtra("FINAL_SCORE", gameManager.score)
-        startActivity(intent)
-        finish()
-    }
-
+    // Stop game when app goes to background
     override fun onPause() {
         super.onPause()
         stopTimer()
     }
 
+    // Resume game when app comes back to foreground
     override fun onResume() {
         super.onResume()
-        android.util.Log.d("MainActivity", "onResume() - isGameRunning=${if (::gameManager.isInitialized) gameManager.isGameRunning else "not initialized"}")
-        if (::gameManager.isInitialized && gameManager.isGameRunning) {
-            android.util.Log.d("MainActivity", "Restarting timer in onResume")
-            startTimer()
+        android.util.Log.d("MainActivity", "onResume() - restarting timer")
+        if (::gameManager.isInitialized) {
+            startTimer() // Always start timer - endless game
         }
     }
 }
