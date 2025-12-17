@@ -4,33 +4,53 @@ An endless Android arcade game where you control a Bitcoin and dodge falling bea
 
 ## 📱 Game Overview
 
-**Bit-Bear** is a fast-paced endless runner game built for Android. Navigate your Bitcoin character across three lanes while avoiding falling bear market obstacles. The game features:
+**Bit-Bear** is a fast-paced endless runner game built for Android. Navigate your Bitcoin character across **five lanes** while avoiding falling bear market obstacles and collecting coins. The game features:
 
 - **Endless Gameplay** - The game never stops! When you lose all lives, it automatically resets
 - **Grid-Based Movement** - Clean, discrete cell-to-cell movement (no Canvas rendering)
+- **5-Lane Road** - Part 2 expanded from 3 to 5 lanes for more strategic gameplay
+- **Dual Control Modes** - Button controls or Accelerometer (sensor) controls
+- **Collectible Coins** - Earn bonus points by collecting coins on the road
+- **Odometer** - Track distance traveled during gameplay
 - **Animated Background** - Dynamic GIF background for visual appeal
-- **Score Tracking** - Earn 10 points for every obstacle you successfully dodge
+- **Score Tracking** - Earn points for dodging obstacles and collecting coins
 - **Lives System** - 3 hearts that reset when depleted
-- **Haptic Feedback** - Device vibration on collision
+- **Haptic Feedback & Sound** - Device vibration and crash sound on collision
+- **High Scores with Map** - Top 10 leaderboard with GPS locations displayed on Google Maps
 
 ---
 
 ## 🎮 How to Play
 
+### Menu Screen
+- **Speed Toggle** - Choose between Slow and Fast game modes
+- **Start with Buttons** - Play using on-screen arrow buttons
+- **Start with Sensors** - Play using phone tilt (accelerometer)
+- **Top 10 Scores** - View the leaderboard with map locations
+
 ### Controls
+**Button Mode:**
 - **Left Arrow Button** - Move Bitcoin one lane to the left
 - **Right Arrow Button** - Move Bitcoin one lane to the right
 
+**Sensor Mode:**
+- **Tilt Phone Left** - Move Bitcoin to the left
+- **Tilt Phone Right** - Move Bitcoin to the right
+- **Tilt Forward/Back** - Speed up or slow down the game (bonus feature)
+
 ### Objective
-- Dodge the falling bears by moving between lanes
+- Dodge the falling bears by moving between 5 lanes
+- Collect coins for bonus points
 - Each bear you successfully avoid awards you **+10 points**
+- Each coin collected awards you **+5 points**
 - If you collide with a bear, you lose **1 heart** (life)
 - When all 3 hearts are lost, the game resets automatically
 
 ### Scoring
 - **+10 points** - Successfully avoiding a bear obstacle
+- **+5 points** - Collecting a coin
 - **-1 life** - Colliding with a bear
-- **Game Reset** - Score and lives reset to 0 when all hearts are lost
+- **Game Reset** - Score and lives reset when all hearts are lost
 
 ---
 
@@ -46,6 +66,13 @@ An endless Android arcade game where you control a Bitcoin and dodge falling bea
 - **RelativeLayout & TableLayout** - Grid-based UI (no Canvas)
 - **Glide Library** - For animated GIF background rendering
 - **Android Vibrator API** - Haptic feedback on collisions
+- **SensorManager & Accelerometer** - Tilt-based controls
+- **Google Maps SDK** - Display high score locations
+- **FusedLocationProvider** - Get device GPS location
+- **SharedPreferences + Gson** - Persist high scores locally
+- **RecyclerView** - Display high score list
+- **Fragments** - List and Map fragments for Top Ten screen
+- **ViewBinding** - Type-safe view access
 - **Handler/Runnable** - Game loop timing
 
 ### Project Structure
@@ -53,19 +80,32 @@ An endless Android arcade game where you control a Bitcoin and dodge falling bea
 app/src/main/
 ├── java/com/example/myapplication/
 │   ├── ui/
-│   │   └── MainActivity.kt          # Main game activity & UI logic
-│   └── logic/
-│       └── GameManager.kt           # Game state & business logic
+│   │   ├── MainActivity.kt              # Main game activity & UI logic
+│   │   ├── MenuActivity.kt              # Main menu screen (Part 2)
+│   │   ├── TopTenActivity.kt            # High scores activity (Part 2)
+│   │   ├── HighScoreListFragment.kt     # RecyclerView fragment (Part 2)
+│   │   ├── HighScoreMapFragment.kt      # Google Maps fragment (Part 2)
+│   │   └── HighScoreAdapter.kt          # RecyclerView adapter (Part 2)
+│   ├── logic/
+│   │   └── GameManager.kt               # Game state & business logic
+│   └── data/
+│       ├── HighScore.kt                 # High score data class (Part 2)
+│       └── HighScoreManager.kt          # SharedPreferences persistence (Part 2)
 ├── res/
 │   ├── drawable/
-│   │   ├── bitcoin.png              # Player character
-│   │   ├── bear_market.png          # Obstacle (bear)
-│   │   ├── tenor.gif                # Animated background
-│   │   ├── heart.png                # Lives indicator
-│   │   ├── arrow_left.png           # Left button icon
-│   │   └── arrow_right.png          # Right button icon
+│   │   ├── bitcoin.xml                  # Player character
+│   │   ├── bear_market.png              # Obstacle (bear)
+│   │   ├── coin.xml                     # Collectible coin (Part 2)
+│   │   ├── tenor.gif                    # Animated background
+│   │   ├── heart.xml                    # Lives indicator
+│   │   └── button_background.xml        # Button styling
 │   └── layout/
-│       └── activity_main.xml        # Main game layout
+│       ├── activity_main.xml            # Main game layout
+│       ├── activity_menu.xml            # Menu screen layout (Part 2)
+│       ├── activity_top_ten.xml         # High scores layout (Part 2)
+│       ├── fragment_high_score_list.xml # List fragment layout (Part 2)
+│       ├── fragment_high_score_map.xml  # Map fragment layout (Part 2)
+│       └── item_high_score.xml          # RecyclerView item (Part 2)
 └── AndroidManifest.xml
 ```
 
@@ -73,27 +113,75 @@ app/src/main/
 
 ## 📋 Features
 
-### ✅ Core Gameplay
-- [x] 3-lane grid system (14 rows × 3 columns)
+### ✅ Core Gameplay (Part 1 + Part 2)
+- [x] 5-lane grid system (16 rows × 5 columns) - expanded from 3 lanes
 - [x] Player movement (left/right)
 - [x] Falling obstacles from top to bottom
+- [x] Collectible coins on the road (Part 2)
+- [x] Odometer - distance counter (Part 2)
 - [x] Collision detection
 - [x] Lives system (3 hearts)
 - [x] Score tracking
 - [x] Endless game mode with auto-reset
 
+### ✅ Controls (Part 2)
+- [x] Button-based controls (arrow buttons)
+- [x] Sensor-based controls (accelerometer tilt)
+- [x] Speed toggle (Fast/Slow mode)
+- [x] Tilt forward/back for speed control (bonus)
+
+### ✅ Menu Screen (Part 2)
+- [x] Speed mode toggle (Fast/Slow)
+- [x] Start with Buttons button
+- [x] Start with Sensors button
+- [x] Top 10 Scores button
+
+### ✅ High Scores (Part 2)
+- [x] Top 10 leaderboard with RecyclerView
+- [x] Google Maps integration with markers
+- [x] GPS location capture for each score
+- [x] Click score to zoom map to location
+- [x] SharedPreferences + Gson persistence
+
 ### ✅ Visual & Audio
 - [x] Animated GIF background
 - [x] Custom Bitcoin and Bear icons
+- [x] Collectible coin icons
 - [x] Heart icons for lives display
 - [x] Toast notifications on collision
 - [x] Vibration feedback
+- [x] Crash sound effect (optional)
 
 ### ✅ Technical Requirements
 - [x] No Canvas usage (pure ViewGroup-based rendering)
 - [x] Grid-based discrete movement (no smooth X/Y coordinates)
 - [x] Forced LTR layout (works in Hebrew/RTL languages)
 - [x] Responsive design (adapts to different screen sizes)
+- [x] ViewBinding enabled
+- [x] Location permissions handling
+
+---
+
+## 🗺️ Google Maps Setup
+
+To enable Google Maps functionality:
+
+1. **Get an API Key**
+   - Go to [Google Cloud Console](https://console.cloud.google.com/)
+   - Create a new project or select existing one
+   - Enable "Maps SDK for Android"
+   - Create an API key
+
+2. **Add API Key to Project**
+   - Open `app/src/main/res/values/strings.xml`
+   - Replace `YOUR_GOOGLE_MAPS_API_KEY_HERE` with your actual API key:
+   ```xml
+   <string name="google_maps_key">YOUR_ACTUAL_API_KEY</string>
+   ```
+
+3. **Restrict API Key (Recommended)**
+   - In Google Cloud Console, restrict the key to your app's package name
+   - Add SHA-1 certificate fingerprint for security
 
 ---
 
@@ -103,6 +191,7 @@ app/src/main/
 - Android Studio (latest version recommended)
 - Android SDK 26 or higher
 - Gradle 8.0+
+- Google Maps API Key (for high scores map)
 
 ### Steps
 1. **Clone the repository**
@@ -116,11 +205,18 @@ app/src/main/
    - Select "Open an existing project"
    - Navigate to the project folder
 
-3. **Sync Gradle**
+3. **Configure Google Maps API Key**
+   - Follow the Google Maps Setup section above
+
+4. **Add Crash Sound (Optional)**
+   - Create `app/src/main/res/raw/` folder
+   - Add a `crash_sound.mp3` or `crash_sound.wav` file
+
+5. **Sync Gradle**
    - Let Android Studio sync Gradle dependencies
    - Wait for build to complete
 
-4. **Run the app**
+6. **Run the app**
    - Connect an Android device or start an emulator
    - Click the "Run" button (or press Shift+F10)
 

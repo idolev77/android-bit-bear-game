@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layoutDirection="ltr"
+    tools:context=".ui.MenuActivity">
+
+    <!-- Background GIF -->
+    <ImageView
+        android:id="@+id/menu_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:contentDescription="@string/background_description"/>
+
+    <!-- Dark overlay for better readability -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#80000000" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="32dp">
+
+        <!-- Game Title -->
+        <TextView
+            android:id="@+id/menu_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/menu_title"
+            android:textSize="42sp"
+            android:textStyle="bold"
+            android:textColor="#FFD700"
+            android:shadowColor="#000000"
+            android:shadowDx="3"
+            android:shadowDy="3"
+            android:shadowRadius="5"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- Subtitle -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/menu_subtitle"
+            android:textSize="18sp"
+            android:textColor="#FFFFFF"
+            android:layout_marginBottom="48dp"/>
+
+        <!-- Speed Mode Section -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:background="@drawable/hearts_background"
+            android:padding="16dp"
+            android:layout_marginBottom="32dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/slow_mode"
+                android:textSize="16sp"
+                android:textColor="#FFFFFF"
+                android:layout_marginEnd="12dp"/>
+
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/speed_toggle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:thumbTint="#FFD700"
+                android:trackTint="#666666"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/fast_mode"
+                android:textSize="16sp"
+                android:textColor="#FFFFFF"
+                android:layout_marginStart="12dp"/>
+
+        </LinearLayout>
+
+        <!-- Start Button Mode -->
+        <Button
+            android:id="@+id/btn_start_buttons"
+            android:layout_width="280dp"
+            android:layout_height="60dp"
+            android:text="@string/start_button_mode"
+            android:textSize="18sp"
+            android:textColor="#000000"
+            android:backgroundTint="#FFD700"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- Start Sensor Mode -->
+        <Button
+            android:id="@+id/btn_start_sensors"
+            android:layout_width="280dp"
+            android:layout_height="60dp"
+            android:text="@string/start_sensor_mode"
+            android:textSize="18sp"
+            android:textColor="#000000"
+            android:backgroundTint="#4CAF50"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- Top Ten Button -->
+        <Button
+            android:id="@+id/btn_top_ten"
+            android:layout_width="280dp"
+            android:layout_height="60dp"
+            android:text="@string/top_ten_button"
+            android:textSize="18sp"
+            android:textColor="#000000"
+            android:backgroundTint="#2196F3"/>
+
+    </LinearLayout>
+</FrameLayout>
+

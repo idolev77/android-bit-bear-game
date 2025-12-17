@@ -20,4 +20,32 @@
     <string name="button_left_description">Move car left</string>
     <string name="button_right_description">Move car right</string>
     <string name="score_description">Current game score</string>
+
+    <!-- Part 2 - Menu Screen -->
+    <string name="menu_title">Bit-Bear Game</string>
+    <string name="speed_mode_label">Speed Mode</string>
+    <string name="slow_mode">Slow</string>
+    <string name="fast_mode">Fast</string>
+    <string name="start_button_mode">Start with Buttons</string>
+    <string name="start_sensor_mode">Start with Sensors</string>
+    <string name="top_ten_button">Top 10 Scores</string>
+    <string name="menu_subtitle">Choose your game mode</string>
+
+    <!-- Part 2 - Game Features -->
+    <string name="odometer_label">Distance: %d m</string>
+    <string name="coins_label">Coins: %d</string>
+    <string name="coin_description">Collectible coin</string>
+
+    <!-- Part 2 - Top Ten / High Scores -->
+    <string name="top_ten_title">Top 10 High Scores</string>
+    <string name="no_scores_yet">No scores yet</string>
+    <string name="enter_name_hint">Enter your name</string>
+    <string name="save_score_button">Save Score</string>
+    <string name="score_saved">Score saved!</string>
+    <string name="rank_format">#%d</string>
+    <string name="score_format">%d pts</string>
+    <string name="unknown_player">Unknown</string>
+
+    <!-- Google Maps API Key - Replace with your own key -->
+    <string name="google_maps_key">AIzaSyDniLJi2EEtb6_viPthNQsVyzEliXII-_0</string>
 </resources>
