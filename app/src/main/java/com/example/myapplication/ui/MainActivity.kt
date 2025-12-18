@@ -117,6 +117,21 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
 
         // Part 2: Initialize high score manager
         highScoreManager = HighScoreManager(this)
+
+        // Show gameplay tip about speed control
+        showGameplayTip()
+    }
+
+    /**
+     * Show gameplay tip based on control mode
+     */
+    private fun showGameplayTip() {
+        val message = if (useSensors) {
+            "💡 הטה ימין/שמאל = כיוון | הטה קדימה/אחורה = מהירות 🚀🐢"
+        } else {
+            "💡 כפתורים = כיוון | הטה קדימה/אחורה = מהירות 🚀🐢"
+        }
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
     }
 
     // Initialize UI components
@@ -529,7 +544,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         // Play crash sound
         crashSound?.start()
 
-        // Vibrate
+        // Vibrate - two strong pulses for very noticeable feedback
         val vibrator = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             val vibratorManager = getSystemService(VIBRATOR_MANAGER_SERVICE) as VibratorManager
             vibratorManager.defaultVibrator
@@ -537,12 +552,23 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
             @Suppress("DEPRECATION")
             getSystemService(VIBRATOR_SERVICE) as Vibrator
         }
-        vibrator.vibrate(VibrationEffect.createOneShot(300, VibrationEffect.DEFAULT_AMPLITUDE))
+
+        // Pattern: [wait, vibrate, wait, vibrate]
+        // Two strong pulses: 0ms wait, 200ms vibrate, 100ms wait, 200ms vibrate
+        val pattern = longArrayOf(0, 200, 100, 200)
+        val amplitudes = intArrayOf(0, 255, 0, 255)  // Max strength (255)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            vibrator.vibrate(VibrationEffect.createWaveform(pattern, amplitudes, -1))
+        } else {
+            @Suppress("DEPRECATION")
+            vibrator.vibrate(pattern, -1)
+        }
     }
 
     // ===== Part 2: Sensor Event Handling =====
     override fun onSensorChanged(event: SensorEvent?) {
-        if (!useSensors || event?.sensor?.type != Sensor.TYPE_ACCELEROMETER) return
+        if (event?.sensor?.type != Sensor.TYPE_ACCELEROMETER) return
 
         val currentTime = System.currentTimeMillis()
         if (currentTime - lastSensorUpdate < SENSOR_UPDATE_INTERVAL) return
@@ -551,24 +577,33 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         val x = event.values[0]  // Left/Right tilt
         val y = event.values[1]  // Forward/Back tilt (bonus feature)
 
-        // Part 2: Move player based on tilt (negative X = tilt right, positive X = tilt left)
-        if (x < -SENSOR_THRESHOLD) {
-            gameManager.moveCarRight()
-            updatePlayerPosition()
-            checkSideCollision()
-            checkCoinCollection()
-        } else if (x > SENSOR_THRESHOLD) {
-            gameManager.moveCarLeft()
-            updatePlayerPosition()
-            checkSideCollision()
-            checkCoinCollection()
+        // Part 2: Move player based on tilt (ONLY in sensor mode)
+        if (useSensors) {
+            if (x < -SENSOR_THRESHOLD) {
+                gameManager.moveCarRight()
+                updatePlayerPosition()
+                checkSideCollision()
+                checkCoinCollection()
+            } else if (x > SENSOR_THRESHOLD) {
+                gameManager.moveCarLeft()
+                updatePlayerPosition()
+                checkSideCollision()
+                checkCoinCollection()
+            }
         }
 
-        // Part 2: Bonus - Adjust speed based on forward/back tilt
-        currentFrameRate = when {
-            y < -3 -> 300L  // Tilt forward = faster
-            y > 3 -> 800L   // Tilt back = slower
-            else -> gameManager.frameRate
+        // Part 2: Speed control - Works in BOTH modes (buttons + sensors)
+        // Tilt forward/back to control speed dynamically
+        val baseFrameRate = gameManager.frameRate
+        val newFrameRate = when {
+            y < -3 -> (baseFrameRate * 0.6).toLong()  // Tilt forward = 40% faster
+            y > 3 -> (baseFrameRate * 1.5).toLong()   // Tilt back = 50% slower
+            else -> baseFrameRate
+        }
+
+        // Update speed if changed significantly
+        if (kotlin.math.abs(currentFrameRate - newFrameRate) > 50) {
+            currentFrameRate = newFrameRate
         }
     }
 
@@ -579,9 +614,8 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
     override fun onPause() {
         super.onPause()
         stopTimer()
-        if (useSensors) {
-            sensorManager.unregisterListener(this)
-        }
+        // Always unregister sensor (used for speed in both modes)
+        sensorManager.unregisterListener(this)
     }
 
     override fun onResume() {
@@ -589,10 +623,9 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         if (::gameManager.isInitialized && gameManager.isGameRunning) {
             startTimer()
         }
-        if (useSensors) {
-            accelerometer?.let {
-                sensorManager.registerListener(this, it, SensorManager.SENSOR_DELAY_GAME)
-            }
+        // Always register sensor (used for speed in both modes)
+        accelerometer?.let {
+            sensorManager.registerListener(this, it, SensorManager.SENSOR_DELAY_GAME)
         }
     }
 

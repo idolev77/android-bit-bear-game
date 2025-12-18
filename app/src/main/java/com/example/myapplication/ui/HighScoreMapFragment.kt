@@ -17,6 +17,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 
 /**
@@ -29,6 +30,7 @@ class HighScoreMapFragment : Fragment(), OnMapReadyCallback {
     private var googleMap: GoogleMap? = null
     private var pendingZoom: Triple<Double, Double, String>? = null
     private var customMarkerIcon: BitmapDescriptor? = null
+    private val markers = mutableMapOf<String, Marker>() // Map coordinates to markers
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -107,7 +109,12 @@ class HighScoreMapFragment : Fragment(), OnMapReadyCallback {
                 markerOptions.icon(icon)
             }
 
-            googleMap?.addMarker(markerOptions)
+            val marker = googleMap?.addMarker(markerOptions)
+            // Store marker with coordinate key for later retrieval
+            marker?.let {
+                val key = "${score.latitude},${score.longitude}"
+                markers[key] = it
+            }
         }
 
         // Zoom to first score location if available
@@ -138,6 +145,10 @@ class HighScoreMapFragment : Fragment(), OnMapReadyCallback {
     private fun zoomToLocationInternal(latitude: Double, longitude: Double, playerName: String) {
         val position = LatLng(latitude, longitude)
         googleMap?.animateCamera(CameraUpdateFactory.newLatLngZoom(position, 15f))
+
+        // Find and show the marker's info window for the selected score
+        val key = "$latitude,$longitude"
+        markers[key]?.showInfoWindow()
     }
 }
 

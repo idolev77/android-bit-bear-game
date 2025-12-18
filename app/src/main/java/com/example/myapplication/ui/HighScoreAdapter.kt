@@ -9,6 +9,9 @@ import com.example.myapplication.R
 import com.example.myapplication.data.HighScore
 import com.example.myapplication.databinding.ItemHighScoreBinding
 import java.text.DecimalFormat
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 /**
  * HighScoreAdapter - RecyclerView adapter for displaying high scores
@@ -36,6 +39,7 @@ class HighScoreAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
 
         private val coordFormat = DecimalFormat("#.###")
+        private val timeFormat = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
 
         fun bind(highScore: HighScore, rank: Int) {
             binding.apply {
@@ -49,6 +53,10 @@ class HighScoreAdapter(
                 val lat = coordFormat.format(highScore.latitude)
                 val lng = coordFormat.format(highScore.longitude)
                 textLocation.text = "📍 $lat, $lng"
+
+                // Show timestamp (date and time)
+                val date = Date(highScore.timestamp)
+                textTime.text = "🕐 ${timeFormat.format(date)}"
 
                 // Click listener - notify parent to zoom map
                 root.setOnClickListener {
