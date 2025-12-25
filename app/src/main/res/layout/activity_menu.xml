@@ -51,58 +51,34 @@
             android:textColor="#FFFFFF"
             android:layout_marginBottom="48dp"/>
 
-        <!-- Speed Mode Section -->
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:background="@drawable/hearts_background"
-            android:padding="16dp"
-            android:layout_marginBottom="32dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/slow_mode"
-                android:textSize="16sp"
-                android:textColor="#FFFFFF"
-                android:layout_marginEnd="12dp"/>
-
-            <com.google.android.material.switchmaterial.SwitchMaterial
-                android:id="@+id/speed_toggle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:thumbTint="#FFD700"
-                android:trackTint="#666666"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/fast_mode"
-                android:textSize="16sp"
-                android:textColor="#FFFFFF"
-                android:layout_marginStart="12dp"/>
-
-        </LinearLayout>
-
-        <!-- Start Button Mode -->
+        <!-- Option 1: Button Mode - Slow -->
         <Button
-            android:id="@+id/btn_start_buttons"
+            android:id="@+id/btn_buttons_slow"
             android:layout_width="280dp"
             android:layout_height="60dp"
-            android:text="@string/start_button_mode"
+            android:text="@string/btn_buttons_slow"
             android:textSize="18sp"
             android:textColor="#000000"
             android:backgroundTint="#FFD700"
             android:layout_marginBottom="16dp"/>
 
-        <!-- Start Sensor Mode -->
+        <!-- Option 2: Button Mode - Fast -->
         <Button
-            android:id="@+id/btn_start_sensors"
+            android:id="@+id/btn_buttons_fast"
             android:layout_width="280dp"
             android:layout_height="60dp"
-            android:text="@string/start_sensor_mode"
+            android:text="@string/btn_buttons_fast"
+            android:textSize="18sp"
+            android:textColor="#000000"
+            android:backgroundTint="#FF9800"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- Option 3: Sensor Mode -->
+        <Button
+            android:id="@+id/btn_sensors"
+            android:layout_width="280dp"
+            android:layout_height="60dp"
+            android:text="@string/btn_sensors"
             android:textSize="18sp"
             android:textColor="#000000"
             android:backgroundTint="#4CAF50"

@@ -25,6 +25,7 @@ import android.widget.TextView
 import android.widget.Toast
 import android.content.Intent
 import android.widget.EditText
+import android.widget.Button
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -53,6 +54,14 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
     private lateinit var textCoins: TextView     // Part 2: Coins display
     private lateinit var heartViews: Array<ImageView>  // Hearts display (lives)
     private lateinit var buttonContainer: View   // Container for control buttons
+
+    // ===== Pause Menu UI =====
+    private lateinit var btnPause: ImageButton
+    private lateinit var pauseOverlay: View
+    private lateinit var btnResume: Button
+    private lateinit var btnRestart: Button
+    private lateinit var btnMenu: Button
+    private var isPaused: Boolean = false
 
     // ===== Grid Cells =====
     // 2D matrix containing all grid cells (ImageView)
@@ -146,6 +155,14 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         textOdometer = findViewById(R.id.text_odometer)
         textCoins = findViewById(R.id.text_coins)
 
+        // Initialize Pause Menu elements
+        btnPause = findViewById(R.id.btn_pause)
+        pauseOverlay = findViewById(R.id.pause_overlay)
+        btnResume = findViewById(R.id.btn_resume)
+        btnRestart = findViewById(R.id.btn_restart)
+        btnMenu = findViewById(R.id.btn_menu)
+        setupPauseMenu()
+
         // Load animated GIF background
         val backgroundGif = findViewById<ImageView>(R.id.background_gif)
         Glide.with(this)
@@ -164,6 +181,100 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         if (useSensors) {
             buttonContainer.visibility = View.GONE
         }
+    }
+
+    // Setup Pause Menu click listeners
+    private fun setupPauseMenu() {
+        // Pause button - opens pause menu
+        btnPause.setOnClickListener {
+            pauseGame()
+        }
+
+        // Resume button - continues the game
+        btnResume.setOnClickListener {
+            resumeGame()
+        }
+
+        // Restart button - resets the game
+        btnRestart.setOnClickListener {
+            restartGame()
+        }
+
+        // Menu button - returns to main menu
+        btnMenu.setOnClickListener {
+            goToMenu()
+        }
+    }
+
+    // Pause the game
+    private fun pauseGame() {
+        if (!isPaused && gameManager.isGameRunning) {
+            isPaused = true
+            stopTimer()
+            sensorManager.unregisterListener(this)
+            pauseOverlay.visibility = View.VISIBLE
+            btnLeft.isEnabled = false
+            btnRight.isEnabled = false
+        }
+    }
+
+    // Resume the game
+    private fun resumeGame() {
+        if (isPaused) {
+            isPaused = false
+            pauseOverlay.visibility = View.GONE
+            btnLeft.isEnabled = true
+            btnRight.isEnabled = true
+            accelerometer?.let {
+                sensorManager.registerListener(this, it, SensorManager.SENSOR_DELAY_GAME)
+            }
+            startTimer()
+        }
+    }
+
+    // Restart the game
+    private fun restartGame() {
+        isPaused = false
+        pauseOverlay.visibility = View.GONE
+        btnLeft.isEnabled = true
+        btnRight.isEnabled = true
+
+        // Clear all obstacles and coins
+        for (obstacle in obstacles) {
+            if (obstacle.row < GRID_ROWS) {
+                gridCells[obstacle.row][obstacle.col]?.setImageDrawable(null)
+            }
+        }
+        obstacles.clear()
+
+        for (coin in coins) {
+            if (coin.row < GRID_ROWS) {
+                gridCells[coin.row][coin.col]?.setImageDrawable(null)
+            }
+        }
+        coins.clear()
+
+        // Reset game manager
+        gameManager.resetGame()
+        currentFrameRate = gameManager.frameRate
+        spawnCounter = 0
+        coinSpawnCounter = 0
+
+        // Update UI
+        updatePlayerPosition()
+        updateLivesUI()
+        updateScoreUI()
+        updateOdometerUI()
+        updateCoinsUI()
+
+        // Spawn initial obstacle
+        spawnNewObstacle()
+
+        // Register sensors and start timer
+        accelerometer?.let {
+            sensorManager.registerListener(this, it, SensorManager.SENSOR_DELAY_GAME)
+        }
+        startTimer()
     }
 
     // Part 2: Initialize sensor manager and accelerometer
@@ -304,7 +415,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
     // ===== Game Loop =====
     private val runnable = object : Runnable {
         override fun run() {
-            if (gameManager.isGameRunning) {
+            if (gameManager.isGameRunning && !isPaused) {
                 tick()
                 handler.postDelayed(this, currentFrameRate)
             }

@@ -12,7 +12,7 @@ An endless Android arcade game where you control a Bitcoin and dodge falling bea
 - **Dual Control Modes** - Button controls or Accelerometer (sensor) controls
 - **Collectible Coins** - Earn bonus points by collecting coins on the road
 - **Odometer** - Track distance traveled during gameplay
-- **Animated Background** - Dynamic GIF background for visual appeal
+- **Animated Background** - Dynamic background image for visual appeal
 - **Score Tracking** - Earn points for dodging obstacles and collecting coins
 - **Lives System** - 3 hearts that reset when depleted
 - **Haptic Feedback & Sound** - Device vibration and crash sound on collision
@@ -23,9 +23,9 @@ An endless Android arcade game where you control a Bitcoin and dodge falling bea
 ## 🎮 How to Play
 
 ### Menu Screen
-- **Speed Toggle** - Choose between Slow and Fast game modes
-- **Start with Buttons** - Play using on-screen arrow buttons
-- **Start with Sensors** - Play using phone tilt (accelerometer)
+- **🎮 Buttons - Slow** - Play with on-screen arrow buttons at slow speed
+- **🎮 Buttons - Fast** - Play with on-screen arrow buttons at fast speed
+- **📱 Sensor Mode** - Play using phone tilt (accelerometer)
 - **Top 10 Scores** - View the leaderboard with map locations
 
 ### Controls
@@ -64,7 +64,7 @@ An endless Android arcade game where you control a Bitcoin and dodge falling bea
 
 ### Key Technologies
 - **RelativeLayout & TableLayout** - Grid-based UI (no Canvas)
-- **Glide Library** - For animated GIF background rendering
+- **Glide Library** - For animated background image rendering
 - **Android Vibrator API** - Haptic feedback on collisions
 - **SensorManager & Accelerometer** - Tilt-based controls
 - **Google Maps SDK** - Display high score locations
@@ -96,7 +96,7 @@ app/src/main/
 │   │   ├── bitcoin.xml                  # Player character
 │   │   ├── bear_market.png              # Obstacle (bear)
 │   │   ├── coin.xml                     # Collectible coin (Part 2)
-│   │   ├── tenor.gif                    # Animated background
+│   │   ├── big_bear_back.png            # Animated background
 │   │   ├── heart.xml                    # Lives indicator
 │   │   └── button_background.xml        # Button styling
 │   └── layout/
@@ -125,15 +125,15 @@ app/src/main/
 - [x] Endless game mode with auto-reset
 
 ### ✅ Controls (Part 2)
-- [x] Button-based controls (arrow buttons)
+- [x] Button-based controls with Slow mode
+- [x] Button-based controls with Fast mode
 - [x] Sensor-based controls (accelerometer tilt)
-- [x] Speed toggle (Fast/Slow mode)
 - [x] Tilt forward/back for speed control (bonus)
 
 ### ✅ Menu Screen (Part 2)
-- [x] Speed mode toggle (Fast/Slow)
-- [x] Start with Buttons button
-- [x] Start with Sensors button
+- [x] 🎮 Buttons - Slow button
+- [x] 🎮 Buttons - Fast button
+- [x] 📱 Sensor Mode button
 - [x] Top 10 Scores button
 
 ### ✅ High Scores (Part 2)
@@ -144,7 +144,7 @@ app/src/main/
 - [x] SharedPreferences + Gson persistence
 
 ### ✅ Visual & Audio
-- [x] Animated GIF background
+- [x] Animated background image
 - [x] Custom Bitcoin and Bear icons
 - [x] Collectible coin icons
 - [x] Heart icons for lives display
@@ -208,15 +208,11 @@ To enable Google Maps functionality:
 3. **Configure Google Maps API Key**
    - Follow the Google Maps Setup section above
 
-4. **Add Crash Sound (Optional)**
-   - Create `app/src/main/res/raw/` folder
-   - Add a `crash_sound.mp3` or `crash_sound.wav` file
-
-5. **Sync Gradle**
+4. **Sync Gradle**
    - Let Android Studio sync Gradle dependencies
    - Wait for build to complete
 
-6. **Run the app**
+5. **Run the app**
    - Connect an Android device or start an emulator
    - Click the "Run" button (or press Shift+F10)
 
@@ -225,10 +221,11 @@ To enable Google Maps functionality:
 ## 🎯 Game Logic
 
 ### Grid System
-- **14 Rows × 3 Columns** - Provides smooth falling motion
-- **Player Position** - Fixed at row 13 (bottom row)
+- **16 Rows × 5 Columns** - Provides smooth falling motion with 5-lane gameplay
+- **Player Position** - Fixed at row 15 (bottom row)
 - **Obstacle Spawn** - Bears spawn at row 0 (top) in random columns
-- **Frame Rate** - 600ms per tick (0.6 seconds)
+- **Coin Spawn** - Coins spawn randomly across all 5 lanes
+- **Frame Rate** - 700ms per tick in slow mode, 250ms in fast mode
 
 ### Collision Detection
 The game checks for collisions in two scenarios:
@@ -236,22 +233,10 @@ The game checks for collisions in two scenarios:
 2. **Horizontal Collision** - Player moves sideways into a bear
 
 ### Spawn Logic
-- Bears spawn every 4-6 ticks (2.4-3.6 seconds)
-- Random column selection (0, 1, or 2)
-- Multiple bears can exist simultaneously
-
----
-
-## 🐛 Known Issues & Solutions
-
-### Issue: Icons changing size during gameplay
-**Solution**: Set `adjustViewBounds = false` in ImageView configuration to maintain consistent icon sizes.
-
-### Issue: Bears stuck at bottom
-**Fixed**: Proper cleanup logic ensures bears are removed when reaching the bottom or after collision.
-
-### Issue: Bitcoin visibility when bear on same row
-**Fixed**: Layering logic prioritizes Bitcoin rendering over bears at player row.
+- Bears spawn every 4-6 ticks
+- Coins spawn randomly on the road
+- Random column selection (0, 1, 2, 3, or 4)
+- Multiple bears and coins can exist simultaneously
 
 ---
 
@@ -270,21 +255,10 @@ The game checks for collisions in two scenarios:
 
 ---
 
-## 📜 License
-
-This project is created for educational purposes as part of an Android development course.
-
----
-
-## 👨‍💻 Author
-
-Created as part of HW1 - Android Development Course
-
----
-
 ## 🎓 Assignment Requirements Met
 
-✅ Three-lane road system  
+### Part 1 - Core Game
+✅ Three-lane road system (expanded to 5 lanes in Part 2)
 ✅ Player movement (left/right)  
 ✅ Falling obstacles  
 ✅ Constant obstacle speed  
@@ -296,11 +270,21 @@ Created as part of HW1 - Android Development Course
 ✅ RelativeLayout-based UI  
 ✅ Responsive design  
 
+### Part 2 - Enhanced Features
+✅ 5-lane road system (16 rows × 5 columns)  
+✅ Collectible coins with scoring  
+✅ Odometer (distance tracking)  
+✅ Menu screen with 3 game mode buttons  
+✅ Button control modes (Slow/Fast)  
+✅ Sensor control mode  
+✅ Speed differentiation (Fast: 250ms, Slow: 700ms)  
+✅ Top 10 high scores with RecyclerView  
+✅ Google Maps integration with GPS locations  
+✅ Fragments for list and map views  
+✅ SharedPreferences data persistence  
+✅ Location permissions and FusedLocationProvider  
+
 ---
-
-## 📞 Support
-
-For issues or questions, please check the code comments or contact the development team.
 
 **Enjoy dodging those bears! 🐻💰**
 

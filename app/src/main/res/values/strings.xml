@@ -30,11 +30,21 @@
     <string name="start_sensor_mode">Start with Sensors</string>
     <string name="top_ten_button">Top 10 Scores</string>
     <string name="menu_subtitle">Choose your game mode</string>
+    <string name="btn_buttons_slow">🎮 Buttons - Slow</string>
+    <string name="btn_buttons_fast">🎮 Buttons - Fast</string>
+    <string name="btn_sensors">📱 Sensor Mode</string>
 
     <!-- Part 2 - Game Features -->
     <string name="odometer_label">Distance: %d m</string>
     <string name="coins_label">Coins: %d</string>
     <string name="coin_description">Collectible coin</string>
+
+    <!-- Pause Menu -->
+    <string name="pause_description">Pause game</string>
+    <string name="pause_title">⏸️ PAUSED</string>
+    <string name="resume_button">▶️ Resume</string>
+    <string name="restart_button">🔄 Restart</string>
+    <string name="menu_button">🏠 Main Menu</string>
 
     <!-- Part 2 - Top Ten / High Scores -->
     <string name="top_ten_title">Top 10 High Scores</string>

@@ -34,9 +34,9 @@ class GameManager(
     var distanceTraveled: Int = 0
         private set
 
-    // Part 2: Frame rate based on speed mode
+    // Part 2: Frame rate based on speed mode - MORE DRAMATIC difference
     val frameRate: Long
-        get() = if (isFastMode) 350L else 600L
+        get() = if (isFastMode) 250L else 700L  // Fast is now 2.8x faster than Slow!
 
     // Maximum lane index (0 to laneCount-1)
     val maxLaneIndex: Int

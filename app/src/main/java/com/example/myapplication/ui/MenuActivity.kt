@@ -41,17 +41,22 @@ class MenuActivity : AppCompatActivity() {
     }
 
     /**
-     * Setup button click listeners
+     * Setup button click listeners for 3 game modes
      */
     private fun setupListeners() {
-        // Start game with button controls
-        binding.btnStartButtons.setOnClickListener {
-            startGame(useSensors = false)
+        // Option 1: Button Mode - Slow
+        binding.btnButtonsSlow.setOnClickListener {
+            startGame(useSensors = false, isFastMode = false)
         }
 
-        // Start game with sensor controls (accelerometer)
-        binding.btnStartSensors.setOnClickListener {
-            startGame(useSensors = true)
+        // Option 2: Button Mode - Fast
+        binding.btnButtonsFast.setOnClickListener {
+            startGame(useSensors = false, isFastMode = true)
+        }
+
+        // Option 3: Sensor Mode
+        binding.btnSensors.setOnClickListener {
+            startGame(useSensors = true, isFastMode = false)
         }
 
         // Navigate to Top Ten high scores screen
@@ -64,9 +69,9 @@ class MenuActivity : AppCompatActivity() {
     /**
      * Start the main game activity with selected options
      */
-    private fun startGame(useSensors: Boolean) {
+    private fun startGame(useSensors: Boolean, isFastMode: Boolean) {
         val intent = Intent(this, MainActivity::class.java).apply {
-            putExtra(EXTRA_IS_FAST_MODE, binding.speedToggle.isChecked)
+            putExtra(EXTRA_IS_FAST_MODE, isFastMode)
             putExtra(EXTRA_USE_SENSORS, useSensors)
         }
         startActivity(intent)
