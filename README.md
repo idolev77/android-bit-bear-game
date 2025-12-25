@@ -142,6 +142,7 @@ app/src/main/
 - [x] GPS location capture for each score
 - [x] Click score to zoom map to location
 - [x] SharedPreferences + Gson persistence
+- [x] Multiple scores at same location shown with small offset
 
 ### ✅ Visual & Audio
 - [x] Animated background image
@@ -182,6 +183,8 @@ To enable Google Maps functionality:
 3. **Restrict API Key (Recommended)**
    - In Google Cloud Console, restrict the key to your app's package name
    - Add SHA-1 certificate fingerprint for security
+
+**Note:** If multiple scores are recorded at the same GPS location (e.g., playing from home), each score will be displayed on the map with a small offset (~11 meters) so all markers are visible and clickable.
 
 ---
 
@@ -247,6 +250,7 @@ The game checks for collisions in two scenarios:
 - **Grid-based Movement** - Discrete cell jumps instead of smooth pixel movement
 - **Endless Mode** - Game auto-resets for continuous play
 - **LTR Enforcement** - Ensures consistent behavior regardless of device language
+- **Map Marker Offset** - Multiple scores at the same GPS location are displayed with small offset (~11 meters) to make all markers visible instead of overlapping
 
 ### Performance Considerations
 - Uses `Handler.postDelayed()` for efficient game loop

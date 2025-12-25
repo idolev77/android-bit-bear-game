@@ -27,8 +27,14 @@ import com.google.android.gms.maps.model.MarkerOptions
  */
 class HighScoreMapFragment : Fragment(), OnMapReadyCallback {
 
+    private data class HighScoreLocation(
+        val latitude: Double,
+        val longitude: Double,
+        val timestamp: Long
+    )
+
     private var googleMap: GoogleMap? = null
-    private var pendingZoom: Triple<Double, Double, String>? = null
+    private var pendingZoom: Pair<HighScoreLocation, String>? = null
     private var customMarkerIcon: BitmapDescriptor? = null
     private val markers = mutableMapOf<String, Marker>() // Map coordinates to markers
 
@@ -83,8 +89,8 @@ class HighScoreMapFragment : Fragment(), OnMapReadyCallback {
         loadMarkersFromHighScores()
 
         // If there was a pending zoom request, execute it now
-        pendingZoom?.let { (lat, lng, name) ->
-            zoomToLocationInternal(lat, lng, name)
+        pendingZoom?.let { (location, name) ->
+            zoomToLocationInternal(location.latitude, location.longitude, location.timestamp, name)
             pendingZoom = null
         }
     }
@@ -96,8 +102,20 @@ class HighScoreMapFragment : Fragment(), OnMapReadyCallback {
         val highScoreManager = HighScoreManager(requireContext())
         val scores = highScoreManager.getHighScores()
 
+        // Track how many markers at each location for offset calculation
+        val locationCounts = mutableMapOf<String, Int>()
+
         scores.forEachIndexed { index, score ->
-            val position = LatLng(score.latitude, score.longitude)
+            // Check if there are multiple scores at this location
+            val locationKey = "${score.latitude},${score.longitude}"
+            val countAtLocation = locationCounts.getOrDefault(locationKey, 0)
+            locationCounts[locationKey] = countAtLocation + 1
+
+            // Add small offset if multiple markers at same location
+            // This makes them visible as separate markers instead of overlapping
+            val offsetLat = score.latitude + (countAtLocation * 0.0001)  // ~11 meters offset
+            val offsetLng = score.longitude + (countAtLocation * 0.0001)
+            val position = LatLng(offsetLat, offsetLng)
 
             val markerOptions = MarkerOptions()
                 .position(position)
@@ -110,9 +128,9 @@ class HighScoreMapFragment : Fragment(), OnMapReadyCallback {
             }
 
             val marker = googleMap?.addMarker(markerOptions)
-            // Store marker with coordinate key for later retrieval
+            // Store marker with unique key including timestamp for later retrieval
             marker?.let {
-                val key = "${score.latitude},${score.longitude}"
+                val key = "${score.latitude},${score.longitude},${score.timestamp}"
                 markers[key] = it
             }
         }
@@ -133,21 +151,21 @@ class HighScoreMapFragment : Fragment(), OnMapReadyCallback {
      * Zoom the map to a specific location
      * Called when a score is selected in the list fragment
      */
-    fun zoomToLocation(latitude: Double, longitude: Double, playerName: String) {
+    fun zoomToLocation(latitude: Double, longitude: Double, timestamp: Long, playerName: String) {
         if (googleMap != null) {
-            zoomToLocationInternal(latitude, longitude, playerName)
+            zoomToLocationInternal(latitude, longitude, timestamp, playerName)
         } else {
             // Map not ready yet, save for later
-            pendingZoom = Triple(latitude, longitude, playerName)
+            pendingZoom = Pair(HighScoreLocation(latitude, longitude, timestamp), playerName)
         }
     }
 
-    private fun zoomToLocationInternal(latitude: Double, longitude: Double, playerName: String) {
+    private fun zoomToLocationInternal(latitude: Double, longitude: Double, timestamp: Long, playerName: String) {
         val position = LatLng(latitude, longitude)
         googleMap?.animateCamera(CameraUpdateFactory.newLatLngZoom(position, 15f))
 
         // Find and show the marker's info window for the selected score
-        val key = "$latitude,$longitude"
+        val key = "$latitude,$longitude,$timestamp"
         markers[key]?.showInfoWindow()
     }
 }

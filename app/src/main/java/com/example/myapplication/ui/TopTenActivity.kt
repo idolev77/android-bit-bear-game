@@ -31,7 +31,12 @@ class TopTenActivity : AppCompatActivity(), HighScoreListFragment.OnScoreSelecte
     override fun onScoreSelected(highScore: HighScore) {
         val mapFragment = supportFragmentManager.findFragmentById(binding.fragmentMap.id)
         if (mapFragment is HighScoreMapFragment) {
-            mapFragment.zoomToLocation(highScore.latitude, highScore.longitude, highScore.playerName)
+            mapFragment.zoomToLocation(
+                highScore.latitude,
+                highScore.longitude,
+                highScore.timestamp,
+                highScore.playerName
+            )
         }
     }
 }
